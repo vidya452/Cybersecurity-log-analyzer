@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Cybersecurity Log Analyzer</title>
+<style>
+body{background:#0f172a;color:white;font-family:Arial;padding:20px;text-align:center}
+textarea{width:90%;height:150px;border-radius:10px;padding:10px}
+button{background:#22c55e;color:white;padding:12px 25px;border:none;border-radius:10px;font-size:16px}
+.box{background:#1e293b;padding:15px;border-radius:10px;margin-top:15px;text-align:left}
+</style>
+</head>
+<body>
+<h1>🛡️ Cybersecurity Log Analyzer</h1>
+<p>Paste your logs below to detect suspicious activity</p>
+<textarea id="logs" placeholder="Paste logs here...&#10;Example: Failed login from 192.168.1.10&#10;Malware detected..."></textarea><br><br>
+<button onclick="analyze()">Analyze Logs</button>
+<div class="box" id="result">Result will appear here...</div>
+<script>
+function analyze(){
+let t=document.getElementById('logs').value.toLowerCase();
+let lines=t.split('\n').length;
+let failed=(t.match(/failed|denied|unauthorized/g)||[]).length;
+let malware=(t.match(/malware|virus|attack|intrusion/g)||[]).length;
+let score=failed*10+malware*20;
+let level=score>50?'🔴 HIGH RISK':score>20?'🟡 MEDIUM RISK':'🟢 SAFE';
+document.getElementById('result').innerHTML='<b>'+level+'</b><br>Total Lines: '+lines+'<br>Failed Logins: '+failed+'<br>Threats Found: '+malware+'<br>Risk Score: '+score;
+}
+</script>
+</body>
+</html>
